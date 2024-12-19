@@ -15,7 +15,7 @@ RUN git clone https://github.com/comfyanonymous/ComfyUI.git /ComfyUI
 
 # 安装 PyTorch，指定 ROCm 相关包
 RUN pip3 install --no-cache-dir torch torchvision torchaudio \
-    --index-url https://download.pytorch.org/whl/rocm6.3
+    --index-url https://download.pytorch.org/whl/rocm6.2
 
 # 安装 ComfyUI 项目依赖
 WORKDIR /ComfyUI
