@@ -16,14 +16,17 @@ RUN git clone https://github.com/comfyanonymous/ComfyUI.git /ComfyUI
 # 创建并激活虚拟环境
 RUN python3 -m venv /venv
 
+# 升级虚拟环境中的 pip
+RUN /venv/bin/pip install --upgrade pip
+
 # 激活虚拟环境并安装 PyTorch 相关依赖
 RUN /venv/bin/pip install --no-cache-dir torch torchvision torchaudio \
     --index-url https://download.pytorch.org/whl/rocm6.2
 
 # 安装 ComfyUI 项目依赖
 WORKDIR /ComfyUI
-RUN pip3 install --no-cache-dir -r requirements.txt
+RUN /venv/bin/pip install --no-cache-dir -r requirements.txt
 
 # 暴露服务端口并设置默认启动命令
 EXPOSE 8188
-CMD ["python3", "main.py"]
+CMD ["/venv/bin/python3", "main.py"]
