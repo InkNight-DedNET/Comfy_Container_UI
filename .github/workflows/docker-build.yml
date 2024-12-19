@@ -27,6 +27,10 @@ jobs:
           username: ${{ github.actor }}  # GitHub 用户名
           password: ${{ secrets.GITHUB_TOKEN }}  # GitHub 自动生成的令牌
 
+      # 添加调试步骤
+      - name: Test Network Connection
+        run: curl -I https://download.pytorch.org/whl/rocm6.2
+
       # 构建并推送 Docker 镜像
       - name: Build and push Docker image to GitHub Container Registry
         uses: docker/build-push-action@v3
