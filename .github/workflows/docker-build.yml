@@ -31,4 +31,4 @@ jobs:
           context: .  # 当前目录作为构建上下文
           file: ./Dockerfile  # Dockerfile 路径
           push: true  # 推送镜像
-          tags: ghcr.io/${{ github.repository }}/comfyui:latest  # 镜像推送到 GitHub 包注册表
+          tags: ghcr.io/inknight-dednet/comfy_container_ui/c_c_u:latest  # 镜像推送到 GitHub 包注册表
