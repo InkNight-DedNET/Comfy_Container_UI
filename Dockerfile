@@ -29,4 +29,4 @@ RUN /venv/bin/pip install --no-cache-dir -r requirements.txt
 
 # 暴露服务端口并设置默认启动命令
 EXPOSE 8188
-CMD ["/venv/bin/python3", "main.py"]
+CMD ["/venv/bin/python3", "main.py --listen 0.0.0.0"]
