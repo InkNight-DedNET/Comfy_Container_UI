@@ -13,8 +13,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # 克隆 ComfyUI 项目
 RUN git clone https://github.com/comfyanonymous/ComfyUI.git /ComfyUI
 
-# 安装 PyTorch，指定 ROCm 相关包
-RUN pip3 install -v --no-cache-dir torch torchvision torchaudio \
+# 创建并激活虚拟环境
+RUN python3 -m venv /venv
+
+# 激活虚拟环境并安装 PyTorch 相关依赖
+RUN /venv/bin/pip install --no-cache-dir torch torchvision torchaudio \
     --index-url https://download.pytorch.org/whl/rocm6.2
 
 # 安装 ComfyUI 项目依赖
