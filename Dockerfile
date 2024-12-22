@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # 克隆 ComfyUI 项目
-# RUN git clone https://github.com/comfyanonymous/ComfyUI.git /ComfyUI
+RUN git clone https://github.com/comfyanonymous/ComfyUI.git /ComfyUI
 
 # 创建并激活虚拟环境
 RUN python3 -m venv /venv
