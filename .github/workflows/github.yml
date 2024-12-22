@@ -20,7 +20,7 @@ jobs:
       - name: Build Docker image
         run: |
           docker buildx create --use
-          docker buildx build --file ./Dockerfile --tag ghcr.io/inknight-dednet/comfy_container_ui/c_c_u:latest .
+          docker buildx build --file ./Dockerfile --tag ghcr.io/inknight-dednet/comfy_container_ui/c_c_u:latest --load.
 
   push:
     runs-on: ubuntu-latest
