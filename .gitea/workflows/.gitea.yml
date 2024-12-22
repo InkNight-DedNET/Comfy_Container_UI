@@ -1,40 +1,32 @@
-name: Build and Push Docker Image to Nexus3 Container Registry
+kind: pipeline
+name: Build and Push Docker Image to Gitea Container Registry
 
-on:
-  # push:
-  #   branches:
-  #     - main
-  workflow_dispatch:
+steps:
+  - name: checkout
+    image: alpine/git
+    commands:
+      - git clone --depth 1 ${CI_REPO} .
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+  - name: setup-buildx
+    image: docker:23
+    privileged: true
+    commands:
+      - docker buildx create --use
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+  - name: build-docker-image
+    image: docker:23
+    commands:
+      - docker buildx build --file ./Dockerfile --tag ${CI_REGISTRY}/comfy_container_ui/c_c_u:latest .
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+  - name: push-docker-image
+    image: docker:23
+    environment:
+      DOCKER_PASSWORD:
+        from_secret: package_gitea_token
+    commands:
+      - echo "${package_gitea_token}" | docker login ${CI_REGISTRY} -u "${CI_COMMITTER}" --password-stdin
+      - docker push ${CI_REGISTRY}/comfy_container_ui/c_c_u:latest
 
-      # 构建 Docker 镜像
-      - name: Build Docker image
-        run: |
-          docker buildx create --use
-          docker buildx build --file ./Dockerfile --tag hub.dednet.co/inknight-dednet/comfy_container_ui/c_c_u:latest .
-
-  push:
-    runs-on: ubuntu-latest
-    needs: build  # 确保推送在构建之后执行
-
-    steps:
-      - name: Login to Nexus3 Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: hub.dednet.co  # Nexus3 容器注册表域名
-          username: ${{ secrets.NEXUS_USERNAME }}  # Nexus3 用户名
-          password: ${{ secrets.NEXUS_PASSWORD }}  # Nexus3 密码
-
-      - name: Push Docker image to Nexus3 Container Registry
-        run: |
-          docker push hub.dednet.co/inknight-dednet/comfy_container_ui/c_c_u:latest
+trigger:
+  event:
+    - custom
