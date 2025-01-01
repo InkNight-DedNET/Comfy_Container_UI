@@ -29,7 +29,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}  # GitHub 用户名
-          password: ${{ secrets.TOKEN }}  # GitHub 自动生成的令牌
+          password: ${{ secrets.GITHUB_TOKEN }}  # GitHub 自动生成的令牌
 
       # 添加调试步骤
       - name: Test Network Connection
